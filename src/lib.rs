@@ -1,19 +1,13 @@
-mod utils;
-
 use wasm_bindgen::prelude::*;
+use wasm_bindgen_futures::*;
 
-// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
-// allocator.
-#[cfg(feature = "wee_alloc")]
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-#[wasm_bindgen]
-extern {
-    fn alert(s: &str);
+async fn run_async() -> Result<(), JsValue> {
+    Ok(())
 }
 
-#[wasm_bindgen]
-pub fn greet() {
-    alert("Hello, wasm-pack-example!");
+#[wasm_bindgen(start)]
+pub fn run() {
+    spawn_local(async {
+        run_async().await.expect("Failed to run:");
+    });
 }
